@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Follows for {{username}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Followers of {{username}}</h1>
+    {% for id, follower in followers %}
+    <li><a href="../../{{id}}/">{{follower}}</a></li>
+    {% endfor %}
+
+    <h1>Users who {{username}} follows</h1>
+    {% for id, followee in followees %}
+        <li><a href="../../{{id}}">{{followee}}</a></li>
+    {% endfor %}
+</body>
+</html>

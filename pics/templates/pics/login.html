@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+<p>{{form.errors}}</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>next = {{next}}</p>
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<div class="container text-center">
+    <h1>Please Login</h1>
+</div>
+
+<div class="container">
+    <form class="container col-4" action="./" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="usernameInput">Username</label>
+            <input type="text" class="form-control" id="usernameInput" name="username" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="password">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="rememberMeCheckbox">
+            <label class="form-check-label" for="rememberMeCheckbox">Remember me</label>
+        </div>
+        <button type="submit" value="login" class="btn btn-primary">Submit</button>
+        <input type="hidden" name="next" value="{{next|default:'/pics/users/'}}">
+    </form>
+</div>
+</body>
+</html>
