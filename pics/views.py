@@ -24,7 +24,9 @@ def index(request):
 
 def users(request):
     if not request.user.is_authenticated:
-        return redirect('login', next='users')
+        users = reverse('users')
+        login = reverse('login')
+        return redirect(login + '?next=' + users)
 
     users = [(u.username, u.user_id) for u in User.objects.all()]
     context = {
@@ -60,7 +62,9 @@ def user_details(request, user_id):
 
 def user_follows(request, user_id):
     if not request.user.is_authenticated:
-        return redirect('login', next='user_follows', user_id=user_id)
+        user_follows = reverse('user_follows', kwargs={'user_id': user_id})
+        login = reverse('login')
+        return redirect(login + '?next=' + user_follows)
 
     me = User.objects.get(user_id=user_id)
     my_followers = UserFollow.objects.filter(followee_id=user_id)
@@ -87,6 +91,11 @@ def user_follows(request, user_id):
 
 
 def photos(request, user_id):
+    if not request.user.is_authenticated:
+        photos = reverse('photos', kwargs={'user_id': user_id})
+        login = reverse('login')
+        return redirect(login + '?next=' + photos)
+
     url_base = '/pics/media/'
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
@@ -106,6 +115,9 @@ def photos(request, user_id):
 
 
 def media(request, media_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     photo = Photo.objects.get(locator=media_id)
     s3 = boto3.client('s3')
     response = s3.get_object(Bucket=settings.S3_BUCKET, Key=media_id)
