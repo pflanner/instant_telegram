@@ -8,6 +8,7 @@ from django.template import loader
 from django.urls import reverse
 
 import logging
+from operator import attrgetter
 
 from PIL import Image
 
@@ -106,6 +107,7 @@ def photos(request, user_id):
         for photo in photos
     ]
 
+    # TODO get the user_id from the request
     user = User.objects.get(user_id=user_id)
 
     context = {
@@ -128,6 +130,36 @@ def media(request, media_id):
         return HttpResponse(response['Body'].read(), content_type='video/mp4')
     else:
         return HttpResponse(_crop_image(response), content_type='image/jpeg')
+
+
+def feed(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login') + '?next=' + reverse('feed'))
+
+    # simple feed algorithm
+    # get the top 25 most recent pictures from everyone this user follows
+    # and pick the most recent 25 out of all of them
+    follows = UserFollow.objects.filter(follower_id=request.user.user_id)
+    all_photos = []
+
+    for follow in follows:
+        all_photos.extend(Photo.objects.filter(user_id=follow.followee_id).order_by('-created_datetime')[:25])
+
+    all_photos.sort(key=attrgetter('created_datetime'), reverse=True)
+    media = [
+        {
+            'url': reverse('media', kwargs={'media_id': photo.locator}),
+            'media_type': photo.media_type,
+            'caption': photo.caption
+        }
+        for photo in all_photos
+    ]
+    context = {
+        'media': media,
+        'username': request.user.username,
+    }
+
+    return render(request, 'pics/feed.html', context)
 
 
 def _crop_image(s3_response):
