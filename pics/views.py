@@ -107,7 +107,6 @@ def photos(request, user_id):
         for photo in photos
     ]
 
-    # TODO get the user_id from the request
     user = User.objects.get(user_id=user_id)
 
     context = {
