@@ -106,8 +106,11 @@ def photos(request, user_id):
         for photo in photos
     ]
 
+    user = User.objects.get(user_id=user_id)
+
     context = {
         'media': media,
+        'username': user.username,
     }
 
     return render(request, 'pics/photos.html', context)
