@@ -96,11 +96,10 @@ def photos(request, user_id):
         login = reverse('login')
         return redirect(login + '?next=' + photos)
 
-    url_base = '/pics/media/'
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
         {
-            'url': url_base + photo.locator + '/',
+            'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
             'caption': photo.caption
         }
