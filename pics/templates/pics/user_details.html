@@ -7,10 +7,11 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    <h1>{{username}}</h1>
+{% include "pics/top_nav.html" %}
+<h1>{{username}}</h1>
 
-    {% for field_name, field_value in user_details %}
-        <p>{{field_name}}: {{field_value}}</p>
-    {% endfor %}
+{% for field_name, field_value in user_details %}
+<p>{{field_name}}: {{field_value}}</p>
+{% endfor %}
 </body>
 </html>
