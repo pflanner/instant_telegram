@@ -161,6 +161,16 @@ def feed(request):
     return render(request, 'pics/feed.html', context)
 
 
+def post(request):
+    logger.debug('PMF received request to post image')
+
+    for k, v in request.FILES.items():
+        image = Image.open(v)
+        image.show()
+
+    return HttpResponse()
+
+
 def _crop_image(s3_response):
     image = Image.open(s3_response['Body'])
     w, h = image.size

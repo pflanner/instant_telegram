@@ -11,6 +11,7 @@ urlpatterns = [
     path('photos/<int:user_id>/', views.photos, name='photos'),
     path('media/<str:media_id>/', views.media, name='media'),
     path('feed/', views.feed, name='feed'),
+    path('post/', views.post, name='post'),
     path('login/', auth_views.LoginView.as_view(template_name='pics/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='pics/logout.html'), name='logout'),
 ]
