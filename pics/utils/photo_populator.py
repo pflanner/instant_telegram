@@ -8,7 +8,7 @@ import os
 from pics.models import Photo
 
 
-BASE_DIR = '../static/images/'
+BASE_DIR = '../../instant_telegram/static/images/'
 S3_BUCKET = os.getenv('S3_BUCKET')
 
 
