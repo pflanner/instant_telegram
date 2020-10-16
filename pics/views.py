@@ -1,20 +1,21 @@
 import boto3
 
-from io import BytesIO
 from django.db.models.fields import Field
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
+from django.utils import timezone
 
+from io import BytesIO
 import logging
 from operator import attrgetter
+from random import randint
 
 from PIL import Image
 
 from instant_telegram import settings
 from .models import User, UserFollow, Photo
-
 
 logger = logging.getLogger(__name__)
 
@@ -162,14 +163,30 @@ def feed(request):
 
 
 def post(request):
-    logger.debug('PMF received request to post image')
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
 
-    for k, v in request.FILES.items():
-        image = Image.open(v)
-        image.show()
+    if not hasattr(request, 'FILES') or not request.FILES:
+        return HttpResponseBadRequest()
 
-    for k, v in request.POST.items():
-        logger.debug('{}={}'.format(k, v))
+    # only taking the first image for now
+    media = next(iter(request.FILES.values()))
+
+    caption = request.POST.get('caption', None)
+    logger.debug('caption={}'.format(caption))
+
+    new_image_locator = _new_image_locator()
+    logger.debug('new_image_locator={}'.format(new_image_locator))
+
+    s3 = boto3.client('s3')
+    s3.put_object(Bucket=settings.S3_BUCKET, Key=new_image_locator, Body=media)
+
+    Photo.objects.create(user_id=request.user.user_id,
+                         caption=caption,
+                         locator=new_image_locator,
+                         media_type=Photo.MediaType.IMAGE,
+                         created_datetime=timezone.now(),
+                         )
 
     return HttpResponse()
 
@@ -203,3 +220,21 @@ def _crop_image(s3_response):
     image.save(image_bytes, format='JPEG')
 
     return image_bytes.getvalue()
+
+
+def _new_image_locator():
+    locator_length = 17
+    num_attempts = 1000000
+
+    for _ in range(num_attempts):
+        locator = []
+
+        for _ in range(locator_length):
+            locator.append(str(randint(0, 9)))
+
+        locator_str = ''.join(locator)
+
+        if not Photo.objects.filter(locator=locator_str).exists():
+            return locator_str
+
+    raise RuntimeError('could generate a new image locator within {} iterations'.format(num_attempts))
