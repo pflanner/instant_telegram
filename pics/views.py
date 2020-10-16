@@ -168,6 +168,9 @@ def post(request):
         image = Image.open(v)
         image.show()
 
+    for k, v in request.POST.items():
+        logger.debug('{}={}'.format(k, v))
+
     return HttpResponse()
 
 
