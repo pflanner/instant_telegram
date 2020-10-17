@@ -113,6 +113,8 @@ def photos(request, user_id):
     context = {
         'media': media,
         'username': user.username,
+        'user_id': user_id,
+        'is_following': _is_following(request.user.user_id, user_id),
     }
 
     return render(request, 'pics/photos.html', context)
@@ -181,12 +183,54 @@ def post(request):
     s3 = boto3.client('s3')
     s3.put_object(Bucket=settings.S3_BUCKET, Key=new_image_locator, Body=media)
 
-    Photo.objects.create(user_id=request.user.user_id,
-                         caption=caption,
-                         locator=new_image_locator,
-                         media_type=Photo.MediaType.IMAGE,
-                         created_datetime=timezone.now(),
-                         )
+    Photo.objects.create(
+        user_id=request.user.user_id,
+        caption=caption,
+        locator=new_image_locator,
+        media_type=Photo.MediaType.IMAGE,
+        created_datetime=timezone.now(),
+    )
+
+    return HttpResponse()
+
+
+def follow(request, user_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    if request.user.user_id == user_id:
+        return HttpResponseBadRequest()
+
+    if _is_following(request.user.user_id, user_id):
+        return HttpResponse()
+
+    try:
+        user_follow = UserFollow.objects.get(follower_id=request.user.user_id, followee_id=user_id)
+        user_follow.follow_datetime = timezone.now()
+        user_follow.save()
+    except UserFollow.DoesNotExist:
+        UserFollow.objects.create(
+            follower_id=request.user.user_id,
+            followee_id=user_id,
+            follow_datetime=timezone.now()
+        )
+
+    return HttpResponse()
+
+
+def unfollow(request, user_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    if request.user.user_id == user_id:
+        return HttpResponseBadRequest()
+
+    if not _is_following(request.user.user_id, user_id):
+        return HttpResponse()
+
+    user_follow = UserFollow.objects.get(follower_id=request.user.user_id, followee_id=user_id)
+    user_follow.unfollow_datetime = timezone.now()
+    user_follow.save()
 
     return HttpResponse()
 
@@ -238,3 +282,15 @@ def _new_image_locator():
             return locator_str
 
     raise RuntimeError('could generate a new image locator within {} iterations'.format(num_attempts))
+
+
+def _is_following(follower_id, followee_id):
+    user_follows = UserFollow.objects.filter(follower_id=follower_id, followee_id=followee_id)
+
+    if user_follows.exists():
+        user_follow = user_follows[0]
+
+        if not user_follow.unfollow_datetime or user_follow.unfollow_datetime < user_follow.follow_datetime:
+            return True
+
+    return False

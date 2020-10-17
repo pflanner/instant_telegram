@@ -12,6 +12,8 @@ urlpatterns = [
     path('media/<str:media_id>/', views.media, name='media'),
     path('feed/', views.feed, name='feed'),
     path('post/', views.post, name='post'),
+    path('follow/<int:user_id>/', views.follow, name='follow'),
+    path('unfollow/<int:user_id>/', views.unfollow, name='unfollow'),
     path('login/', auth_views.LoginView.as_view(template_name='pics/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='pics/logout.html'), name='logout'),
 ]
