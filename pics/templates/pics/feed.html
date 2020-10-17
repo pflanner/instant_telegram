@@ -14,6 +14,7 @@
 
 {% for media in media %}
 <div class="container">
+    <h4>{{media.username}}</h4>
     {% if media.media_type == 'VIDEO' %}
     <video width="614" height="614" controls>
         <source src="{{media.url}}" type="video/mp4">

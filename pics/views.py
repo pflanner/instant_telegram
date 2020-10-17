@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    return HttpResponse('This is the index page.')
+    return feed(request)
 
 
 def users(request):
@@ -150,6 +150,7 @@ def feed(request):
     all_photos.sort(key=attrgetter('created_datetime'), reverse=True)
     media = [
         {
+            'username': photo.user.username,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
             'caption': photo.caption
