@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -8,6 +9,10 @@ class User(AbstractUser):
     modified_datetime = models.DateTimeField(null=True, blank=True)
     deleted_at_datetime = models.DateTimeField(null=True, blank=True)
     last_logout_datetime = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.modified_datetime = timezone.now()
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'users'

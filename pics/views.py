@@ -1,5 +1,6 @@
 import boto3
 
+from django.contrib.auth import authenticate, login
 from django.db.models.fields import Field
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
@@ -15,6 +16,7 @@ from random import randint
 from PIL import Image
 
 from instant_telegram import settings
+from .forms import SignUpForm
 from .models import User, UserFollow, Photo
 
 logger = logging.getLogger(__name__)
@@ -234,6 +236,22 @@ def unfollow(request, user_id):
     user_follow.save()
 
     return HttpResponse()
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.modified_datetime = timezone.now()
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('feed')
+    else:
+        form = SignUpForm()
+    return render(request, 'pics/signup.html', {'form': form})
 
 
 def _crop_image(s3_response):
