@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed for {{username}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+{% include "pics/top_nav.html" %}
+
+{% block content %}
+{% endblock %}
+
+{% include "pics/bootstrap_js.html" %}
+<script language="javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
+</script>
+</body>
+</html>

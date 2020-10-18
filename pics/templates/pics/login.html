@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
-<body>
+{% extends 'pics/base.html' %}
 
+{% block content %}
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 <p>{{form.errors}}</p>
@@ -44,5 +37,4 @@
         <input type="hidden" name="next" value="{{next|default:'/feed/'}}">
     </form>
 </div>
-</body>
-</html>
+{% endblock %}

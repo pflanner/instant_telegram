@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Feed for {{username}}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-</head>
-<body>
-{% include "pics/top_nav.html" %}
+{% extends 'pics/base.html' %}
+
+{% block content %}
 <div class="container my-5">
     <h3>Feed</h3>
 </div>
@@ -29,7 +22,4 @@
     </p>
 </div>
 {% endfor %}
-
-{% include "pics/bootstrap_js.html" %}
-</body>
-</html>
+{% endblock %}
