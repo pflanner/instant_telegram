@@ -62,4 +62,21 @@ class UserFollow(models.Model):
 
     def __str__(self):
         return 'followee_id={} follower_id={}'.format(self.followee, self.follower)
-#JF5RK
+
+
+class Like(models.Model):
+    like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, models.DO_NOTHING)
+    photo = models.ForeignKey(Photo, models.DO_NOTHING)
+    like_datetime = models.DateTimeField()
+
+    class Meta:
+        db_table = 'likes'
+        unique_together = [['user_id', 'photo_id']]
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['photo_id']),
+        ]
+
+    def __str__(self):
+        return 'user_id={} photo_id={}'.format(self.user, self.photo)
