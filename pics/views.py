@@ -263,6 +263,15 @@ def like(request, photo_id):
     return HttpResponse()
 
 
+def unlike(request, photo_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    Like.objects.get(user_id=request.user.user_id, photo_id=photo_id).delete()
+
+    return HttpResponse()
+
+
 def _crop_image(s3_response):
     image = Image.open(s3_response['Body'])
     w, h = image.size
