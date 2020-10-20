@@ -17,7 +17,7 @@ from PIL import Image
 
 from instant_telegram import settings
 from .forms import SignUpForm
-from .models import User, UserFollow, Photo
+from .models import User, UserFollow, Photo, Like
 
 logger = logging.getLogger(__name__)
 
@@ -252,6 +252,15 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'pics/signup.html', {'form': form})
+
+
+def like(request, photo_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    Like.objects.create(user_id=request.user.user_id, photo_id=photo_id, like_datetime=timezone.now())
+
+    return HttpResponse()
 
 
 def _crop_image(s3_response):
