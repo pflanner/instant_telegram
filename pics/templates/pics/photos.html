@@ -3,14 +3,14 @@
 {% block content %}
 <div class="container my-5">
     <h2>{{username}}</h2>
-    <input type="hidden" id="user_id" value="{{user_id}}" />
+    <input type="hidden" id="user_id" value="{{user_id}}"/>
     {% csrf_token %}
     {% if user.username != username %}
-        {% if is_following %}
-        <button class="btn btn-primary" name="following" onclick="toggleFollow(this)">Following</button>
-        {% else %}
-        <button class="btn btn-outline-primary" name="not_following" onclick="toggleFollow(this)">Follow</button>
-        {% endif %}
+    {% if is_following %}
+    <button class="btn btn-primary" name="following" onclick="toggleFollow(this)">Following</button>
+    {% else %}
+    <button class="btn btn-outline-primary" name="not_following" onclick="toggleFollow(this)">Follow</button>
+    {% endif %}
     {% endif %}
 </div>
 
@@ -23,11 +23,20 @@
     {% else %}
     <img src="{{media.url}}" width="614" height="614"/>
     {% endif %}
-    <p>
-        {% if media.caption %}
-        {{media.caption}}
-        {% endif %}
-    </p>
+    <div class="mb-5">
+        <div class="like-wrapper">
+            <a href="javascript:void(0);" class="like-button">
+                <i class="material-icons not-liked bouncy">favorite_border</i>
+                <i class="material-icons is-liked bouncy">favorite</i>
+                <span class="like-overlay"></span>
+            </a>
+        </div>
+        <div class="photo-caption">
+            {% if media.caption %}
+            {{media.caption}}
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endfor %}
 {% endblock %}

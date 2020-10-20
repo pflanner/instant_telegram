@@ -1,0 +1,105 @@
+$fade-grey: #ededed;
+$grey: #ccc;
+$muted-grey: #999;
+$heart: #ff4f8f;
+$white: #fff;
+$like-button-size: 30px;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: $fade-grey;
+}
+
+.container {
+  .love {
+    font-size: 0.9rem;
+    color: $heart;
+  }
+  .like-wrapper {
+    display: inline-block;
+    padding-top: 10px;
+    width: 50px;
+    .like-button {
+      position: relative;
+      width: $like-button-size;
+      height: $like-button-size;
+      border-radius: 50%;
+      background: $grey;
+      display: flex;
+      justify-content: center;
+      align-items:center;
+      margin: 0 auto;
+      text-decoration: none;
+      overflow: hidden;
+      .like-overlay {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $like-button-size;
+        height: $like-button-size;
+        border-radius: 50%;
+        background: $heart;
+        transform: scale(0);
+        transition: all .4s;
+        z-index: 0;
+      }
+      i {
+        &.not-liked {
+          display: block;
+          color: $white;
+          position: relative;
+          z-index: 1;
+        }
+        &.is-liked {
+          display: none;
+          color: $white;
+          position: relative;
+          z-index: 1;
+        }
+      }
+      &.is-active {
+        .like-overlay {
+          transform: scale(1);
+        }
+        i {
+          &.not-liked {
+            display: none;
+          }
+          &.is-liked {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+//Watch me get bouncy
+@-webkit-keyframes bouncy {
+    from, to { -webkit-transform: scale(1, 1); }
+    25% { -webkit-transform: scale(0.9, 1.1); }
+    50% { -webkit-transform: scale(1.1, 0.9); }
+    75% { -webkit-transform: scale(0.95, 1.05); }
+}
+@keyframes bouncy {
+    from, to { transform: scale(1, 1); }
+    25% { transform: scale(0.9, 1.1); }
+    50% { transform: scale(1.1, 0.9); }
+    75% { transform: scale(0.95, 1.05);}
+}
+
+//Settings
+.bouncy {
+    -webkit-animation: bouncy 0.6s;
+    animation: bouncy 0.6s;
+    -webkit-animation-duration: 0.6s;
+    animation-duration: 0.6s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}

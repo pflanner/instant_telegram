@@ -1,3 +1,7 @@
+.photo-caption {
+    display: inline;
+}
+
 .tooltip-inner {
     max-width: 100% !important;
     text-align: left;
