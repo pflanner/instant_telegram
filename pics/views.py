@@ -106,7 +106,8 @@ def photos(request, user_id):
             'photo_id': photo.photo_id,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
-            'caption': photo.caption
+            'caption': photo.caption,
+            'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
         }
         for photo in photos
     ]
