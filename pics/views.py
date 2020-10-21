@@ -112,11 +112,13 @@ def photos(request, user_id):
     ]
 
     user = User.objects.get(user_id=user_id)
+    title = 'Photos for ' + user.username
 
     context = {
         'media': media,
         'username': user.username,
         'user_id': user_id,
+        'title': title,
         'is_following': _is_following(request.user.user_id, user_id),
     }
 
@@ -151,6 +153,7 @@ def feed(request):
         all_photos.extend(Photo.objects.filter(user_id=follow.followee_id).order_by('-created_datetime')[:25])
 
     all_photos.sort(key=attrgetter('created_datetime'), reverse=True)
+
     media = [
         {
             'username': photo.user.username,
@@ -160,9 +163,12 @@ def feed(request):
         }
         for photo in all_photos
     ]
+    title = 'Feed for ' + request.user.username
+
     context = {
         'media': media,
         'username': request.user.username,
+        'title': title,
     }
 
     return render(request, 'pics/feed.html', context)
