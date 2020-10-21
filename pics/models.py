@@ -80,3 +80,21 @@ class Like(models.Model):
 
     def __str__(self):
         return 'user_id={} photo_id={}'.format(self.user, self.photo)
+
+
+class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, models.DO_NOTHING)
+    photo = models.ForeignKey(Photo, models.DO_NOTHING)
+    comment_datetime = models.DateTimeField()
+
+    class Meta:
+        db_table = 'comments'
+        unique_together = [['user_id', 'photo_id']]
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['photo_id']),
+        ]
+
+    def __str__(self):
+        return 'user_id={} photo_id={}'.format(self.user, self.photo)
