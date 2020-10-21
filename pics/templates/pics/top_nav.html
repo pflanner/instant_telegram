@@ -8,9 +8,11 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      {% if user.is_authenticated %}
       <li class="nav-item mx-auto">
         <button class="btn" data-toggle="modal" data-target="#postModal"><img class="nav-link" src="{% static 'images/post_button_small.png' %}" id="fileSelect" /></button>
       </li>
+      {% endif %}
       <!--
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -35,9 +37,16 @@
       -->
     </ul>
 
+    {% if user.is_authenticated %}
     <div class="my-2 my-lg-0" style="float:right">
-      <a class="nav-link" href="/logout">Logout</a>
+      <a class="nav-link" href="/logout/">Logout</a>
     </div>
+    {% else %}
+    <div class="my-2 my-lg-0" style="float:right; display:inline">
+      <a class="nav-link mx-0 px-0" href="/login/" style="display:inline">Login</a> /
+      <a class="nav-link mx-0 px-0" href="/signup/" style="display:inline">Signup</a>
+    </div>
+    {% endif %}
   </div>
 
   {% include "pics/post_modal.html" %}
