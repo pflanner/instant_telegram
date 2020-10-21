@@ -1,0 +1,25 @@
+{% for media in media %}
+<div class="container">
+    {% if media.media_type == 'VIDEO' %}
+    <video width="614" height="614" controls>
+        <source src="{{media.url}}" type="video/mp4">
+    </video>
+    {% else %}
+    <img src="{{media.url}}" width="614" height="614"/>
+    {% endif %}
+    <div class="mb-5">
+        <div class="like-wrapper">
+            <a href="javascript:void(0);" class="like-button" name="{{media.photo_id}}">
+                <i class="material-icons not-liked bouncy">favorite_border</i>
+                <i class="material-icons is-liked bouncy">favorite</i>
+                <span class="like-overlay"></span>
+            </a>
+        </div>
+        <div class="photo-caption">
+            {% if media.caption %}
+            {{media.caption}}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -157,6 +157,7 @@ def feed(request):
     media = [
         {
             'username': photo.user.username,
+            'photo_id': photo.photo_id,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
             'caption': photo.caption

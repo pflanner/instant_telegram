@@ -3,23 +3,7 @@
 {% block content %}
 <div class="container my-5">
     <h3>Feed</h3>
+    <input type="hidden" id="user_id" value="{{user.user_id}}"/>
 </div>
-
-{% for media in media %}
-<div class="container">
-    <h4>{{media.username}}</h4>
-    {% if media.media_type == 'VIDEO' %}
-    <video width="614" height="614" controls>
-        <source src="{{media.url}}" type="video/mp4">
-    </video>
-    {% else %}
-    <img src="{{media.url}}" width="614" height="614"/>
-    {% endif %}
-    <p>
-        {% if media.caption %}
-        {{media.caption}}
-        {% endif %}
-    </p>
-</div>
-{% endfor %}
+{% include 'pics/photo_content.html' %}
 {% endblock %}
