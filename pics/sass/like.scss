@@ -23,14 +23,15 @@ html, body {
   .like-wrapper {
     display: inline-block;
     padding-top: 10px;
-    width: 50px;
+    width: 100px;
+    justify-content: left;
     .like-button {
       position: relative;
       width: $like-button-size;
       height: $like-button-size;
       border-radius: 50%;
       background: $grey;
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       align-items:center;
       margin: 0 auto;
@@ -76,6 +77,10 @@ html, body {
           }
         }
       }
+    }
+    .like-count {
+        display: inline;
+        width: 50px;
     }
   }
 }

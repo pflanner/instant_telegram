@@ -1,10 +1,12 @@
 $(document).ready(function(){
     // initialize like buttons
-    $('.like-button').each(function(){
+    $('.like-wrapper').each(function(){
         console.log('initializing like buttons');
 
-        let jqueryElement = $(this);
-        let photoId = jqueryElement.attr('name');
+        let likeWrapper = $(this);
+        let likeButton = likeWrapper.children('.like-button');
+        let likeCount = likeWrapper.children('.like-count');
+        let photoId = likeButton.attr('name');
         let csrfToken = $('input[name="csrfmiddlewaretoken"]')[0].value;
         let xhr = new XMLHttpRequest();
         let url = '/likecount/' + photoId + '/';
@@ -18,7 +20,8 @@ $(document).ready(function(){
 
                 if (xhr.status === 200) {
                     if (responseObject.like_count > 0) {
-                        like(jqueryElement);
+                        like(likeButton);
+                        likeCount.text(responseObject.like_count);
                     }
                 }
             }

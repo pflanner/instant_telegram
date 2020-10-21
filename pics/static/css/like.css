@@ -15,7 +15,8 @@ html, body {
 .container .like-wrapper {
   display: inline-block;
   padding-top: 10px;
-  width: 50px;
+  width: 100px;
+  justify-content: left;
 }
 .container .like-wrapper .like-button {
   position: relative;
@@ -23,7 +24,7 @@ html, body {
   height: 30px;
   border-radius: 50%;
   background: #ccc;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
@@ -63,6 +64,10 @@ html, body {
 }
 .container .like-wrapper .like-button.is-active i.is-liked {
   display: block;
+}
+.container .like-wrapper .like-count {
+  display: inline;
+  width: 50px;
 }
 
 @-webkit-keyframes bouncy {
