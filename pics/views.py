@@ -2,7 +2,7 @@ import boto3
 
 from django.contrib.auth import authenticate, login
 from django.db.models.fields import Field
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
@@ -103,6 +103,7 @@ def photos(request, user_id):
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
         {
+            'photo_id': photo.photo_id,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
             'caption': photo.caption
@@ -270,6 +271,17 @@ def unlike(request, photo_id):
     Like.objects.get(user_id=request.user.user_id, photo_id=photo_id).delete()
 
     return HttpResponse()
+
+
+def like_count(request, photo_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    like_count = Like.objects.filter(photo_id=photo_id).count()
+
+    data = {'like_count': like_count}
+
+    return JsonResponse(data)
 
 
 def _crop_image(s3_response):

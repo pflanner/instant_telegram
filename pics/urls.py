@@ -14,8 +14,9 @@ urlpatterns = [
     path('post/', views.post, name='post'),
     path('follow/<int:user_id>/', views.follow, name='follow'),
     path('unfollow/<int:user_id>/', views.unfollow, name='unfollow'),
-    path('like/<int:photo_id>', views.like, name='like'),
-    path('unlike/<int:photo_id>', views.unlike, name='unlike'),
+    path('like/<int:photo_id>/', views.like, name='like'),
+    path('unlike/<int:photo_id>/', views.unlike, name='unlike'),
+    path('likecount/<int:photo_id>/', views.like_count, name='likecount'),
     path('login/', auth_views.LoginView.as_view(template_name='pics/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='pics/logout.html'), name='logout'),
     path('signup/', views.signup, name='signup')
