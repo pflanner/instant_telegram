@@ -86,6 +86,7 @@ class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, models.DO_NOTHING)
     photo = models.ForeignKey(Photo, models.DO_NOTHING)
+    comment_text = models.CharField(max_length=300)
     comment_datetime = models.DateTimeField()
 
     class Meta:
