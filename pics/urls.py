@@ -15,6 +15,7 @@ urlpatterns = [
     path('photos/<int:photo_id>/like/', views.like, name='like'),
     path('photos/<int:photo_id>/unlike/', views.unlike, name='unlike'),
     path('photos/<int:photo_id>/likecount/', views.like_count, name='likecount'),
+    path('photos/<int:photo_id>/comments/', views.comments, name='comments'),
     path('media/<str:media_id>/', views.media, name='media'),
     path('feed/', views.feed, name='feed'),
     path('login/', auth_views.LoginView.as_view(template_name='pics/login.html', redirect_authenticated_user=True), name='login'),

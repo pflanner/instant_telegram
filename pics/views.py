@@ -329,6 +329,13 @@ def like_count(request, photo_id):
     return JsonResponse(data)
 
 
+def comments(request, photo_id):
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    return HttpResponseNotFound()
+
+
 def _crop_image(s3_response):
     image = Image.open(s3_response['Body'])
     w, h = image.size
