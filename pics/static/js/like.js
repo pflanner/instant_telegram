@@ -68,7 +68,7 @@ function unlike(jqueryElement) {
 function getLikeCount(photoId, callback) {
     let csrfToken = $('input[name="csrfmiddlewaretoken"]')[0].value;
     let xhr = new XMLHttpRequest();
-    let url = '/likecount/' + photoId + '/';
+    let url = '/photos/' + photoId + '/likecount/';
 
     xhr.open('GET', url, true);
     xhr.setRequestHeader('X-CSRFToken', csrfToken);
