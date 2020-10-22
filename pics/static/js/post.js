@@ -7,7 +7,7 @@ fileForm.addEventListener("submit", function(e) {
   const fd = new FormData(fileForm);
   const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "/post/", true);
+  xhr.open("POST", "/photos/", true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
       console.log("status: " + xhr.status + " responseText: " + xhr.responseText); // handle response.

@@ -9,6 +9,7 @@ urlpatterns = [
     path('users/<str:user_identifier>/', views.user_details, name='user_details'),
     path('users/<int:user_id>/follows/', views.user_follows, name='user_follows'),
     path('photos/<int:photo_id>/', views.photo_details, name='photo_details'),
+    path('photos/', views.post, name='post_photo'),
     path('media/<str:media_id>/', views.media, name='media'),
     path('feed/', views.feed, name='feed'),
     path('post/', views.post, name='post'),

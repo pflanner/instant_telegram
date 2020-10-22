@@ -56,7 +56,7 @@ def user_details(request, user_identifier):
     user_id = _to_user_id(user_identifier)
 
     if user_id is not None:
-        return _user_id_view(request, user_id)
+        return photos(request, user_id)
     else:
         return user_view(request, user_identifier)
 
@@ -99,21 +99,19 @@ def user_view(request, username):
 
     try:
         user_id = User.objects.get(username=username).user_id
-        return _user_id_view(request, user_id)
+        return photos(request, user_id)
     except User.DoesNotExist:
         return HttpResponseNotFound()
 
 
-def _user_id_view(request, user_id):
-    if user_id == request.user.user_id:
-        return feed(request)
-    else:
-        return photos(request, user_id)
-
-
-def photos(request, user_id):
+def photos(request, user_id=None):
     if not request.user.is_authenticated:
         return redirect(reverse('login') + '?next=' + request.path)
+
+    if request.method == 'POST':
+        return post(request)
+    elif request.method != 'GET':
+        return HttpResponseBadRequest()
 
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
