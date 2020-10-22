@@ -5,7 +5,7 @@ function toggleFollow(element) {
 
     if (element.name === 'following') {
         let xhr = new XMLHttpRequest();
-        let url = '/unfollow/' + userId + '/';
+        let url = '/users/' + userId + '/unfollow/';
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
@@ -23,7 +23,7 @@ function toggleFollow(element) {
         xhr.send();
     } else {
         let xhr = new XMLHttpRequest();
-        let url = '/follow/' + userId + '/';
+        let url = '/users/' + userId + '/follow/';
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
