@@ -113,9 +113,7 @@ def _user_id_view(request, user_id):
 
 def photos(request, user_id):
     if not request.user.is_authenticated:
-        photos = reverse('photos', kwargs={'user_id': user_id})
-        login = reverse('login')
-        return redirect(login + '?next=' + photos)
+        return redirect(reverse('login') + '?next=' + request.path)
 
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
@@ -141,6 +139,30 @@ def photos(request, user_id):
     }
 
     return render(request, 'pics/photos.html', context)
+
+
+def photo_details(request, photo_id):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login') + '?next=' + request.path)
+
+    try:
+        photo = Photo.objects.get(photo_id=photo_id)
+        media = {
+            'username': photo.user.username,
+            'photo_id': photo.photo_id,
+            'url': reverse('media', kwargs={'media_id': photo.locator}),
+            'media_type': photo.media_type,
+            'caption': photo.caption,
+            'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
+        }
+        context = {
+            'media': media,
+            'title': 'Photo Details',
+        }
+
+        return render(request, 'pics/photo_details.html', context)
+    except Photo.DoesNotExist:
+        return HttpResponseNotFound()
 
 
 def media(request, media_id):
