@@ -25,11 +25,11 @@ $(document).ready(function(){
         let photoId = likeButton.attr('name');
         let csrfToken = $('input[name="csrfmiddlewaretoken"]')[0].value;
         let f = like;
-        let url = '/like/' + photoId + '/'
+        let url = '/photos/' + photoId + '/like/';
         let xhr = new XMLHttpRequest();
 
         if (likeButton.hasClass('is-active')) {
-            url = '/unlike/' + photoId + '/';
+            url = '/photos/' + photoId + '/unlike/';
             f = unlike;
         }
 
