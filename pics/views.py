@@ -41,27 +41,24 @@ def users(request):
     return HttpResponse(template.render(context, request))
 
 
-def user_details(request, user_id):
+def user_details(request, user_identifier):
+    """
+    Take either a user_id or a username and return the appropriate user view for that user if it exists
+    :param request:
+    :param user_identifier: either a user_id or username of a particular user
+    :return: the user view for the identified user
+    """
     if not request.user.is_authenticated:
-        user_details = reverse('user_details', kwargs={'user_id': user_id})
-        login = reverse('login')
-        return redirect(login + '?next=' + user_details)
+        user_details_url = reverse('user_details', kwargs={'user_identifier': user_identifier})
+        login_url = reverse('login')
+        return redirect(login_url + '?next=' + user_details_url)
 
-    user = User.objects.get(user_id=user_id)
-    user_details = []
+    user_id = _to_user_id(user_identifier)
 
-    for field in user._meta.get_fields():
-        if isinstance(field, Field):
-            field_val = getattr(user, field.name)
-            user_details.append((field.name, field_val))
-
-    context = {
-        'username': user.username,
-        'user_details': user_details,
-    }
-    template = loader.get_template('pics/user_details.html')
-
-    return HttpResponse(template.render(context, request))
+    if user_id is not None:
+        return _user_id_view(request, user_id)
+    else:
+        return user_view(request, user_identifier)
 
 
 def user_follows(request, user_id):
@@ -102,12 +99,16 @@ def user_view(request, username):
 
     try:
         user_id = User.objects.get(username=username).user_id
-        if user_id == request.user.user_id:
-            return feed(request)
-        else:
-            return photos(request, user_id)
+        return _user_id_view(request, user_id)
     except User.DoesNotExist:
         return HttpResponseNotFound()
+
+
+def _user_id_view(request, user_id):
+    if user_id == request.user.user_id:
+        return feed(request)
+    else:
+        return photos(request, user_id)
 
 
 def photos(request, user_id):
@@ -367,3 +368,10 @@ def _is_following(follower_id, followee_id):
             return True
 
     return False
+
+
+def _to_user_id(user_identifier):
+    try:
+        return int(user_identifier)
+    except ValueError:
+        return None
