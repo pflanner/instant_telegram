@@ -6,6 +6,9 @@
     <input type="hidden" id="user_id" value="{{user.user_id}}"/>
 </div>
 {% for media in media %}
+<div class="container">
+    <h4>{{media.username}}</h4>
+</div>
 {% include 'pics/photo_content.html' %}
 {% endfor %}
 {% endblock %}
