@@ -19,6 +19,7 @@ urlpatterns = [
     path('likecount/<int:photo_id>/', views.like_count, name='likecount'),
     path('login/', auth_views.LoginView.as_view(template_name='pics/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='pics/logout.html'), name='logout'),
-    path('signup/', views.signup, name='signup')
+    path('signup/', views.signup, name='signup'),
+    path('<str:username>/', views.user_view, name='user_view'),
 ]
 

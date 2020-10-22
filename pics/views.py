@@ -2,7 +2,7 @@ import boto3
 
 from django.contrib.auth import authenticate, login
 from django.db.models.fields import Field
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse
@@ -92,6 +92,22 @@ def user_follows(request, user_id):
     template = loader.get_template('pics/user_follows.html')
 
     return HttpResponse(template.render(context, request))
+
+
+def user_view(request, username):
+    if not request.user.is_authenticated:
+        user_view_url = reverse('user_view', kwargs={'username': username})
+        login_url = reverse('login')
+        return redirect(login_url + '?next=' + user_view_url)
+
+    try:
+        user_id = User.objects.get(username=username).user_id
+        if user_id == request.user.user_id:
+            return feed(request)
+        else:
+            return photos(request, user_id)
+    except User.DoesNotExist:
+        return HttpResponseNotFound()
 
 
 def photos(request, user_id):
