@@ -17,7 +17,7 @@ from PIL import Image
 
 from instant_telegram import settings
 from .forms import SignUpForm
-from .models import User, UserFollow, Photo, Like
+from .models import User, UserFollow, Photo, Like, Comment
 
 logger = logging.getLogger(__name__)
 
@@ -121,6 +121,7 @@ def photos(request, user_id=None):
             'media_type': photo.media_type,
             'caption': photo.caption,
             'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
+            'comments': Comment.objects.filter(photo_id=photo.photo_id),
         }
         for photo in photos
     ]
@@ -152,6 +153,7 @@ def photo_details(request, photo_id):
             'media_type': photo.media_type,
             'caption': photo.caption,
             'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
+            'comments': Comment.objects.filter(photo_id=photo.photo_id),
         }
         context = {
             'media': media,
@@ -198,7 +200,9 @@ def feed(request):
             'photo_id': photo.photo_id,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
-            'caption': photo.caption
+            'caption': photo.caption,
+            'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
+            'comments': Comment.objects.filter(photo_id=photo.photo_id),
         }
         for photo in all_photos
     ]
