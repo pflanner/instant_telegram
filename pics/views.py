@@ -235,15 +235,23 @@ def post(request):
     s3 = boto3.client('s3')
     s3.put_object(Bucket=settings.S3_BUCKET, Key=new_image_locator, Body=media)
 
-    Photo.objects.create(
+    photo = Photo.objects.create(
         user_id=request.user.user_id,
         caption=caption,
         locator=new_image_locator,
         media_type=Photo.MediaType.IMAGE,
         created_datetime=timezone.now(),
     )
+    media_content = {
+            'username': photo.user.username,
+            'photo_id': photo.photo_id,
+            'url': reverse('media', kwargs={'media_id': photo.locator}),
+            'media_type': photo.media_type,
+            'caption': photo.caption,
+        }
 
-    return HttpResponse()
+    # Server side rendering of html
+    return render(request, 'pics/photo_content.html', {'media': media_content})
 
 
 def follow(request, user_id):

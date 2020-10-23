@@ -1,45 +1,45 @@
-$(document).ready(function(){
-    // initialize comment forms
-    $('.comment-form').each(function(){
-        setCommentFormState($(this));
+function initializeComments() {
+    $(document).ready(function(){
+        $('.comment-form').each(function(){
+            setCommentFormState($(this));
+        });
     });
-});
 
+    $('.comment-text').on('change keyup paste', function() {
+        console.log('comment-text changing');
+        let form = $(this).parent();
 
-$('.comment-text').on('change keyup paste', function() {
-    console.log('comment-text changing');
-    let form = $(this).parent();
+        setCommentFormState(form);
+    });
 
-    setCommentFormState(form);
-});
+    $('.comment-form').submit(function(e) {
+        e.preventDefault();
 
-$('.comment-form').submit(function(e) {
-    e.preventDefault();
+        let form = $(this);
+        let formText = form.children('.comment-text');
+        let photoId = form.attr('name');
 
-    let form = $(this);
-    let formText = form.children('.comment-text');
-    let photoId = form.attr('name');
-
-    if (formText[0].value.length === 0) {
-        console.log('comment text empty; not submitting');
-        return;
-    }
-
-    console.log('submitting comment');
-    console.log(form);
-    const fd = new FormData(form[0]);
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('POST', '/photos/' + photoId + '/comments/', true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            console.log("status: " + xhr.status + " responseText: " + xhr.responseText); // handle response.
-            formText.val('');
-            $('#comments-' + photoId).append(xhr.responseText);
+        if (formText[0].value.length === 0) {
+            console.log('comment text empty; not submitting');
+            return;
         }
-    };
-    xhr.send(fd);
-});
+
+        console.log('submitting comment');
+        console.log(form);
+        const fd = new FormData(form[0]);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/photos/' + photoId + '/comments/', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                console.log("status: " + xhr.status + " responseText: " + xhr.responseText); // handle response.
+                formText.val('');
+                $('#comments-' + photoId).append(xhr.responseText);
+            }
+        };
+        xhr.send(fd);
+    });
+}
 
 function setCommentFormState(form) {
     let commentText = form.children('.comment-text');
@@ -51,3 +51,5 @@ function setCommentFormState(form) {
         submitButton.attr('disabled', false);
     }
 }
+
+initializeComments();

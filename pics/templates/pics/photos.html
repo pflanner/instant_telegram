@@ -1,6 +1,7 @@
 {% extends 'pics/base.html' %}
 
 {% block content %}
+<input type="hidden" id="page-name" value="photos"/>
 <div class="container my-5">
     <h2>{{username}}</h2>
     <input type="hidden" id="user_id" value="{{user_id}}"/>
@@ -13,7 +14,9 @@
     {% endif %}
     {% endif %}
 </div>
+<div id="photo-content">
 {% for media in media %}
 {% include 'pics/photo_content.html' %}
 {% endfor %}
+</div>
 {% endblock %}

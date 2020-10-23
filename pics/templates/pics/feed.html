@@ -1,14 +1,17 @@
 {% extends 'pics/base.html' %}
 
 {% block content %}
+<input type="hidden" id="page-name" value="feed"/>
 <div class="container my-5">
     <h3>Feed</h3>
     <input type="hidden" id="user_id" value="{{user.user_id}}"/>
 </div>
+<div id="photo-content">
 {% for media in media %}
 <div class="container">
     <h4>{{media.username}}</h4>
 </div>
 {% include 'pics/photo_content.html' %}
 {% endfor %}
+</div>
 {% endblock %}
