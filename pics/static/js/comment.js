@@ -35,6 +35,7 @@ $('.comment-form').submit(function(e) {
         if (xhr.readyState == 4) {
             console.log("status: " + xhr.status + " responseText: " + xhr.responseText); // handle response.
             formText.val('');
+            $('#comments-' + photoId).append(xhr.responseText);
         }
     };
     xhr.send(fd);

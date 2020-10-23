@@ -39,7 +39,7 @@
 
     {% if user.is_authenticated %}
     <div class="my-2 my-lg-0" style="float:right">
-      <a class="nav-link" href="/logout/">Logout</a>
+      <a class="nav-link" href="/logout/">Logout {{user.username}}</a>
     </div>
     {% else %}
     <div class="my-2 my-lg-0" style="float:right; display:inline">

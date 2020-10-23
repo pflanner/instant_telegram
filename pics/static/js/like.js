@@ -1,8 +1,6 @@
 $(document).ready(function(){
     // initialize like counts
     $('.like-wrapper').each(function(){
-        console.log('initializing like buttons');
-
         let likeWrapper = $(this);
         let likeButton = likeWrapper.children('.like-button');
         let likeCountElement = likeWrapper.children('.like-count');
@@ -37,7 +35,7 @@ $(document).ready(function(){
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
-                console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
+//                console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
 
                 if (xhr.status === 200) {
                     f(likeButton);
@@ -74,7 +72,7 @@ function getLikeCount(photoId, callback) {
     xhr.setRequestHeader('X-CSRFToken', csrfToken);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
-            console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
+//            console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
             let responseObject = JSON.parse(xhr.responseText);
 
             if (xhr.status === 200) {

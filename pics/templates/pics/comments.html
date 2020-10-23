@@ -1,27 +1,17 @@
 <!-- https://www.codeply.com/go/mTSPpG1F2A/bootstrap-4-comments-thread -->
 <div class="container mb-3">
-    <div class="comments col-md-9" id="comments">
+    <div class="comments col-md-9" id="comments-{{media.photo_id}}">
         {% for comment in media.comments %}
-        <!-- comment -->
-        <div class="comment mb-2 row">
-            <div class="comment-content col-md-11 col-sm-10">
-                <h6 class="small comment-meta"><a href="/{{comment.user.username}}/">{{comment.user.username}}</a>
-                    {{comment.comment_datetime}}</h6>
-                <div class="comment-body">
-                    <p>{{comment.comment_text}}</p>
-                </div>
-            </div>
-        </div>
-        <!-- /comment -->
+        {% include 'pics/comment.html' %}
         {% endfor %}
-        <div class="row pt-2">
-            <div class="col-12">
-                <form method="POST" enctype="multipart/form-data" class="comment-form" name="{{media.photo_id}}">
-                    {% csrf_token %}
-                    <textarea class="comment-text col-8 mb-1 pb-1" maxlength="300" name="comment-text"></textarea>
-                    <input type="submit" class="btn btn-sm btn-primary mt-0 comment-submit" value="Add a Comment">
-                </form>
-            </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col-12">
+            <form method="POST" enctype="multipart/form-data" class="comment-form" name="{{media.photo_id}}">
+                {% csrf_token %}
+                <textarea class="comment-text col-8 mb-1 pb-1" maxlength="300" name="comment-text"></textarea>
+                <input type="submit" class="btn btn-sm btn-primary mt-0 comment-submit" value="Add a Comment">
+            </form>
         </div>
     </div>
 </div>

@@ -1,7 +1,6 @@
 import boto3
 
 from django.contrib.auth import authenticate, login
-from django.db.models.fields import Field
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import loader
@@ -337,16 +336,17 @@ def comments(request, photo_id):
     if not request.user.is_authenticated:
         return HttpResponseForbidden()
 
-    comment = request.POST['comment-text']
+    comment_text = request.POST['comment-text']
 
-    Comment.objects.create(
+    comment = Comment.objects.create(
         user_id=request.user.user_id,
         photo_id=photo_id,
-        comment_text=comment,
+        comment_text=comment_text,
         comment_datetime=timezone.now(),
     )
 
-    return HttpResponse()
+    # Server side rendering of comment HTML
+    return render(request, 'pics/comment.html', {'comment': comment})
 
 
 def _crop_image(s3_response):
