@@ -15,7 +15,7 @@ html, body {
 .container .like-wrapper {
   display: inline-block;
   padding-top: 10px;
-  width: 100px;
+  width: 60px;
   justify-content: left;
 }
 .container .like-wrapper .like-button {
