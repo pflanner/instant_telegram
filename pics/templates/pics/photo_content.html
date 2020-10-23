@@ -6,7 +6,7 @@
     {% else %}
     <img src="{{media.url}}" width="614" height="614"/>
     {% endif %}
-    <div class="mb-5">
+    <div class="mb-3">
         <div class="like-wrapper">
             {% if media.is_liked %}
             <a href="javascript:void(0);" class="like-button is-active" name="{{media.photo_id}}">
@@ -25,4 +25,5 @@
             {% endif %}
         </div>
     </div>
+    {% include 'pics/comments.html' %}
 </div>

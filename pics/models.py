@@ -91,7 +91,6 @@ class Comment(models.Model):
 
     class Meta:
         db_table = 'comments'
-        unique_together = [['user_id', 'photo_id']]
         indexes = [
             models.Index(fields=['user_id']),
             models.Index(fields=['photo_id']),

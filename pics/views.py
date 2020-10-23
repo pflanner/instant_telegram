@@ -337,7 +337,16 @@ def comments(request, photo_id):
     if not request.user.is_authenticated:
         return HttpResponseForbidden()
 
-    return HttpResponseNotFound()
+    comment = request.POST['comment-text']
+
+    Comment.objects.create(
+        user_id=request.user.user_id,
+        photo_id=photo_id,
+        comment_text=comment,
+        comment_datetime=timezone.now(),
+    )
+
+    return HttpResponse()
 
 
 def _crop_image(s3_response):

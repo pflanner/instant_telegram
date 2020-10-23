@@ -6,3 +6,8 @@
     max-width: 100% !important;
     text-align: left;
 }
+
+.comment-text {
+    display: block;
+    background-color: #ededed;
+}
