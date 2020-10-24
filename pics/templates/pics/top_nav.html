@@ -13,6 +13,7 @@
         <button class="btn" data-toggle="modal" data-target="#postModal"><img class="nav-link" src="{% static 'images/post_button_small.png' %}" id="fileSelect" /></button>
       </li>
       {% endif %}
+      {% if False %}
       <!--
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -35,6 +36,7 @@
         <a class="nav-link disabled" href="#">Disabled</a>
       </li>
       -->
+      {% endif %}
     </ul>
 
     {% if user.is_authenticated %}
@@ -49,7 +51,9 @@
     {% endif %}
   </div>
 
+  {% if user.is_authenticated %}
   {% include "pics/post_modal.html" %}
+  {% endif %}
 </nav>
 
 <script language="javascript" src="{% static 'js/post.js' %}"></script>
