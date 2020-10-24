@@ -12,3 +12,8 @@
     background-color: #ededed;
     width: 600px;
 }
+
+.signup-link {
+    display-block;
+    width: 200px;
+}
