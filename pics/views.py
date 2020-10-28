@@ -357,6 +357,10 @@ def comments(request, photo_id):
     return render(request, 'pics/comment.html', {'comment': comment})
 
 
+def health(request):
+    return HttpResponse()
+
+
 def _crop_image(s3_response):
     image = Image.open(s3_response['Body'])
     w, h = image.size
