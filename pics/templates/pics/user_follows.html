@@ -1,13 +1,15 @@
 {% extends 'pics/base.html' %}
 
 {% block content %}
-<h1>Followers of {{username}}</h1>
+<div class="container my-5">
+<h3>Followers of {{username}}</h3>
 {% for id, follower in followers %}
 <li><a href="../../{{id}}/">{{follower}}</a></li>
 {% endfor %}
 
-<h1>Users who {{username}} follows</h1>
+<h3>Users who {{username}} follows</h3>
 {% for id, followee in followees %}
 <li><a href="../../{{id}}">{{followee}}</a></li>
 {% endfor %}
+</div>
 {% endblock %}

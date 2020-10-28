@@ -1,7 +1,10 @@
 {% extends 'pics/base.html' %}
 
 {% block content %}
+<div class="container pt-5">
+    <h3>Users</h3>
 {% for username, user_id in users %}
-<li>{{username}} <a href="./{{user_id}}">details</a> <a href="./{{user_id}}/follows/">follows</a></li>
+<li><a href="./{{user_id}}">{{username}}</a> <a href="./{{user_id}}/follows/">follows</a></li>
 {% endfor %}
+</div>
 {% endblock %}
