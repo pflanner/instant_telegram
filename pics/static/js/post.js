@@ -18,6 +18,7 @@ fileForm.addEventListener("submit", function(e) {
       if (pageName === 'photos') {
         $('#photo-content').prepend(xhr.responseText);
         initializeComments();
+        initializeLikes();
       }
     }
   };

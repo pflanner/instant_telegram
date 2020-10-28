@@ -1,6 +1,10 @@
-$(document).ready(function(){
+$(document).ready(function () {
+    initializeLikes();
+});
+
+function initializeLikes() {
     // initialize like counts
-    $('.like-wrapper').each(function(){
+    $('.like-wrapper').each(function () {
         let likeWrapper = $(this);
         let likeButton = likeWrapper.children('.like-button');
         let likeCountElement = likeWrapper.children('.like-count');
@@ -16,7 +20,7 @@ $(document).ready(function(){
     });
 
     // attach a function to toggle like state to all like buttons
-    $('.like-wrapper').click(function(){
+    $('.like-wrapper').click(function () {
         let likeWrapper = $(this);
         let likeButton = likeWrapper.children('.like-button');
         let likeCountElement = likeWrapper.children('.like-count');
@@ -33,14 +37,14 @@ $(document).ready(function(){
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('X-CSRFToken', csrfToken);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
-//                console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
+                //                console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
 
                 if (xhr.status === 200) {
                     f(likeButton);
                     getLikeCount(photoId, (likeCount) => {
-                       if (likeCount > 0) {
+                        if (likeCount > 0) {
                             likeCountElement.text(likeCount);
                         } else {
                             likeCountElement.text('');
@@ -51,7 +55,7 @@ $(document).ready(function(){
         };
         xhr.send();
     });
-});
+}
 
 function like(jqueryElement) {
     console.log('liked')
@@ -70,9 +74,9 @@ function getLikeCount(photoId, callback) {
 
     xhr.open('GET', url, true);
     xhr.setRequestHeader('X-CSRFToken', csrfToken);
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-//            console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
+            //            console.log('response from ' + url + ' – status: ' + xhr.status + ' responseText: ' + xhr.responseText);
             let responseObject = JSON.parse(xhr.responseText);
 
             if (xhr.status === 200) {
