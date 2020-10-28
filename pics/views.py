@@ -199,7 +199,8 @@ def feed(request):
 
     if len(media) == 0:
         # context['follow_suggestions'] = _generate_follow_suggestions(request)
-        context['follow_suggestions'] = User.objects.all()[:10]
+        follow_suggestions = User.objects.all()[:10]
+        context['follow_suggestions'] = [u for u in follow_suggestions if u != request.user]
 
     return render(request, 'pics/feed.html', context)
 
