@@ -31,6 +31,9 @@ def users(request):
         login = reverse('login')
         return redirect(login + '?next=' + users)
 
+    if not request.user.is_staff:
+        return HttpResponseForbidden()
+
     users = [(u.username, u.user_id) for u in User.objects.all()]
     context = {
         'users': users,
@@ -65,6 +68,9 @@ def user_follows(request, user_id):
         user_follows = reverse('user_follows', kwargs={'user_id': user_id})
         login = reverse('login')
         return redirect(login + '?next=' + user_follows)
+
+    if not request.user.is_staff:
+        return HttpResponseForbidden()
 
     me = User.objects.get(user_id=user_id)
     my_followers = UserFollow.objects.filter(followee_id=user_id)
