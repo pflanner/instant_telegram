@@ -7,6 +7,17 @@
     <input type="hidden" id="user_id" value="{{user.user_id}}"/>
 </div>
 <div id="photo-content">
+{% if not media %}
+<div class="container">
+    <p>There's nothing here. Follow someone to get started.<p>
+    {% if follow_suggestions %}
+    <h5 class="py-2">Suggestions:</h5>
+    {% for user in follow_suggestions %}
+    <p><a href="/{{user.username}}/">{{user.username}}</a></p>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endif %}
 {% for media in media %}
 <div class="container">
     <h4>{{media.username}}</h4>
