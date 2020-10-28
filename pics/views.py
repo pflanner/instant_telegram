@@ -182,29 +182,7 @@ def feed(request):
     if not request.user.is_authenticated:
         return redirect(reverse('login') + '?next=' + reverse('feed'))
 
-    # simple feed algorithm
-    # get the top 25 most recent pictures from everyone this user follows
-    # and pick the most recent 25 out of all of them
-    follows = UserFollow.objects.filter(follower_id=request.user.user_id)
-    all_photos = []
-
-    for follow in follows:
-        all_photos.extend(Photo.objects.filter(user_id=follow.followee_id).order_by('-created_datetime')[:25])
-
-    all_photos.sort(key=attrgetter('created_datetime'), reverse=True)
-
-    media = [
-        {
-            'username': photo.user.username,
-            'photo_id': photo.photo_id,
-            'url': reverse('media', kwargs={'media_id': photo.locator}),
-            'media_type': photo.media_type,
-            'caption': photo.caption,
-            'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
-            'comments': Comment.objects.filter(photo_id=photo.photo_id),
-        }
-        for photo in all_photos
-    ]
+    media = _generate_feed(request)
     title = 'Feed for ' + request.user.username
 
     context = {
@@ -212,6 +190,10 @@ def feed(request):
         'username': request.user.username,
         'title': title,
     }
+
+    if len(media) == 0:
+        # context['follow_suggestions'] = _generate_follow_suggestions(request)
+        context['follow_suggestions'] = User.objects.all()[:10]
 
     return render(request, 'pics/feed.html', context)
 
@@ -427,3 +409,56 @@ def _to_user_id(user_identifier):
         return int(user_identifier)
     except ValueError:
         return None
+
+
+def _generate_feed(request):
+    # simple feed algorithm
+    # get the top 25 most recent pictures from everyone this user follows
+    # and pick the most recent 25 out of all of them
+    follows = UserFollow.objects.filter(follower_id=request.user.user_id)
+    all_photos = []
+
+    for follow in follows:
+        all_photos.extend(Photo.objects.filter(user_id=follow.followee_id).order_by('-created_datetime')[:25])
+
+    all_photos.sort(key=attrgetter('created_datetime'), reverse=True)
+
+    media = [
+        {
+            'username': photo.user.username,
+            'photo_id': photo.photo_id,
+            'url': reverse('media', kwargs={'media_id': photo.locator}),
+            'media_type': photo.media_type,
+            'caption': photo.caption,
+            'is_liked': Like.objects.filter(photo_id=photo.photo_id, user_id=request.user.user_id).exists(),
+            'comments': Comment.objects.filter(photo_id=photo.photo_id),
+        }
+        for photo in all_photos
+    ]
+
+    return media
+
+
+def _generate_follow_suggestions(request, limit=10):
+    suggestions = {}
+    my_follows = {f.followee.user_id: f.followee for f in UserFollow.objects.filter(follower=request.user)}
+
+    my_followers = UserFollow.objects.filter(followee=request.user)
+    for f in my_followers:
+        if f.follower.user_id not in my_follows:
+            suggestions[f.follower.user_id] = f.follower
+
+    if len(suggestions) >= limit:
+        return list(suggestions.values())[:limit]
+
+    followers_of_followers = UserFollow.objects.filter(followee__in=suggestions.values())
+    for f in followers_of_followers:
+        if f.follower.user_id not in my_follows:
+            suggestions[f.follower.user_id] = f.follower
+
+    if len(suggestions) >= limit:
+        return list(suggestions.values())[:limit]
+
+    all_users = User.objects.all()
+
+
