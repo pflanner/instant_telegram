@@ -2,11 +2,9 @@
 
 {% block content %}
 <input type="hidden" id="page-name" value="feed"/>
-<div class="container my-5">
-    <h3>Feed</h3>
-    <input type="hidden" id="user_id" value="{{user.user_id}}"/>
-</div>
-<div id="photo-content">
+<input type="hidden" id="user_id" value="{{user.user_id}}"/>
+
+<div id="photo-content" class="container min-width pb-3">
 {% if not media %}
 <div class="container">
     <p>There's nothing here. Follow someone to get started.<p>
@@ -19,10 +17,12 @@
 </div>
 {% endif %}
 {% for media in media %}
-<div class="container">
-    <h4>{{media.username}}</h4>
+<div class="container thin-border min-width p-0 mb-5 bg-white">
+<div class="container min-width ml-3 my-3">
+    <b>{{media.username}}</b>
 </div>
 {% include 'pics/photo_content.html' %}
+</div>
 {% endfor %}
 </div>
 {% endblock %}

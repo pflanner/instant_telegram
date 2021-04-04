@@ -1,3 +1,19 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #fafafa;
+}
+
+.main-header {
+    background: #fff !important;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.post-button {
+    height: 46px;
+    display: block;
+}
+
 .photo-caption {
     display: inline;
 }
@@ -14,6 +30,20 @@
 }
 
 .signup-link {
-    display-block;
+    display: block;
     width: 200px;
+}
+
+.min-width {
+    width: min-content;
+}
+
+.thin-border {
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+}
+
+.vspace-100 {
+    height: 100px;
+    display: block !important;
 }

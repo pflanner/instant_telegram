@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light main-header">
   <a class="navbar-brand" href="/">Instant Telegram</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -9,8 +9,8 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {% if user.is_authenticated %}
-      <li class="nav-item mx-auto">
-        <button class="btn" data-toggle="modal" data-target="#postModal"><img class="nav-link" src="{% static 'images/post_button_small.png' %}" id="fileSelect" /></button>
+      <li class="nav-item mx-auto pt-0">
+        <button class="btn post-button" data-toggle="modal" data-target="#postModal"><img src="{% static 'images/post_button_small.png' %}" id="fileSelect" /></button>
       </li>
       {% endif %}
       {% if False %}

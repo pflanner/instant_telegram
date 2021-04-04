@@ -2,12 +2,6 @@
   box-sizing: border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #ededed;
-}
-
 .container .love {
   font-size: 0.9rem;
   color: #ff4f8f;
