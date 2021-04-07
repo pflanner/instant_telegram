@@ -8,7 +8,7 @@
 }
 .container .like-wrapper {
   display: inline-block;
-  padding-top: 10px;
+  margin-bottom: 5px;
   width: 60px;
   justify-content: left;
 }
@@ -21,7 +21,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin-bottom: 5px;
   text-decoration: none;
   overflow: hidden;
 }

@@ -11,8 +11,10 @@ function initializeLikes() {
         let photoId = likeButton.attr('name');
 
         getLikeCount(photoId, (likeCount) => {
-            if (likeCount > 0) {
-                likeCountElement.text(likeCount);
+            if (likeCount > 1) {
+                likeCountElement.text(likeCount + ' likes');
+            } else if (likeCount > 0) {
+                likeCountElement.text(likeCount + ' like');
             } else {
                 likeCountElement.text('');
             }
@@ -44,8 +46,10 @@ function initializeLikes() {
                 if (xhr.status === 200) {
                     f(likeButton);
                     getLikeCount(photoId, (likeCount) => {
-                        if (likeCount > 0) {
-                            likeCountElement.text(likeCount);
+                        if (likeCount > 1) {
+                            likeCountElement.text(likeCount + ' likes');
+                        } else if (likeCount > 0) {
+                            likeCountElement.text(likeCount + ' like');
                         } else {
                             likeCountElement.text('');
                         }

@@ -47,3 +47,12 @@ html, body {
     height: 100px;
     display: block !important;
 }
+
+.like-count {
+    display: block !important;
+    font-weight: bold;
+}
+
+.photo-caption {
+    display: block !important;
+}
