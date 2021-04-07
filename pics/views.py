@@ -121,7 +121,7 @@ def photos(request, user_id=None):
     photos = Photo.objects.filter(user_id=user_id).order_by('-created_datetime')
     media = [
         {
-            'username': request.user.username,
+            'username': photo.user.username,
             'photo_id': photo.photo_id,
             'url': reverse('media', kwargs={'media_id': photo.locator}),
             'media_type': photo.media_type,
