@@ -18,8 +18,8 @@
 {% endif %}
 {% for media in media %}
 <div class="container thin-border min-width p-0 mb-5 bg-white">
-<div class="container min-width ml-3 my-3">
-    <b>{{media.username}}</b>
+<div class="container photo-username min-width ml-3 my-3">
+    <a href="/{{media.username}}"><b>{{media.username}}</b></a>
 </div>
 {% include 'pics/photo_content.html' %}
 </div>

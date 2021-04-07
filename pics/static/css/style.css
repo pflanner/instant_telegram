@@ -56,3 +56,11 @@ html, body {
 .photo-caption {
     display: block !important;
 }
+
+.photo-caption a {
+    color: black;
+}
+
+.photo-username a {
+    color: black;
+}

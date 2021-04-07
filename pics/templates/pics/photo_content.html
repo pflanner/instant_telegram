@@ -21,7 +21,7 @@
         </div>
         <div class="photo-caption">
             {% if media.caption %}
-            <b>{{media.username}}</b> {{media.caption}}
+            <a href="/{{media.username}}"><b>{{media.username}}</b></a> {{media.caption}}
             {% endif %}
         </div>
     </div>
