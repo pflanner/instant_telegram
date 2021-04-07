@@ -1,17 +1,14 @@
 <!-- https://www.codeply.com/go/mTSPpG1F2A/bootstrap-4-comments-thread -->
-<div class="container mb-3 pr-0">
+<div>
     <div class="comments col-md-9" id="comments-{{media.photo_id}}">
         {% for comment in media.comments %}
         {% include 'pics/comment.html' %}
         {% endfor %}
     </div>
-    <div class="row pb-2">
-        <div class="col-12">
-            <form method="POST" enctype="multipart/form-data" class="comment-form" name="{{media.photo_id}}">
-                {% csrf_token %}
-                <textarea class="comment-text col-8 mb-1 pb-1" maxlength="300" name="comment-text"></textarea>
-                <input type="submit" class="btn btn-sm btn-primary mt-0 comment-submit" value="Add a Comment">
-            </form>
-        </div>
-    </div>
+    <form method="POST" enctype="multipart/form-data" class="comment-form" name="{{media.photo_id}}">
+        {% csrf_token %}
+        <textarea class="comment-text py-2 mx-2" maxlength="300" name="comment-text" rows="1"
+                  placeholder="Add a comment…"></textarea>
+        <input type="submit" class="comment-submit" value="Post">
+    </form>
 </div>

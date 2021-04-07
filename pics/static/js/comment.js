@@ -47,8 +47,10 @@ function setCommentFormState(form) {
 
     if (commentText[0].value.length === 0) {
         submitButton.attr('disabled', true);
+        submitButton.removeClass('comment-submit-active');
     } else {
         submitButton.attr('disabled', false);
+        submitButton.addClass('comment-submit-active');
     }
 }
 

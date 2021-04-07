@@ -64,3 +64,35 @@ html, body {
 .photo-username a {
     color: black;
 }
+
+.comment-form {
+    border-top: 1px solid #dbdbdb;
+    position: relative;
+}
+
+.comment-text {
+    display: inline;
+    width: 88%;
+    border: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+    background: white;
+}
+
+.comment-submit {
+    display: inline;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #c3dcf7;
+    background: white;
+    border: none;
+}
+
+.comment-submit-active {
+    color: #3e95ef !important;
+}
